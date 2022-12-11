@@ -1,34 +1,33 @@
-import {Component} from 'react';
+import {useState} from 'react';
 import PropTypes from 'prop-types';
 import {SearchFormStyled,SearchFormButtonStyled} from './SearchForm.styled';
 import SearchFormInput from './SearchFormInput/SearchFormInput';
 import {FiSearch} from "react-icons/fi";
 
-class SearchForm  extends Component{
-    state={
-      text:'', 
-    };
+const SearchForm =({onSubmit})=> {
+     const [text, setText] =  useState(''); 
+  
 
-handleChange = event =>{
-    this.setState({text:event.currentTarget.value});
+const handleChange = event =>{
+  setText(event.currentTarget.value);
 }
-handleSubmit =event=>{
+const handleSubmit =event=>{
     event.preventDefault();
-    this.props.onSubmit(this.state.text);
+    onSubmit(text);
 }
- render(){
+ 
     return(
-        <SearchFormStyled onSubmit={this.handleSubmit}>
+        <SearchFormStyled onSubmit={handleSubmit}>
         <SearchFormButtonStyled type="submit">
         <FiSearch size="28" />
         </SearchFormButtonStyled>
         <SearchFormInput
-          onChange={this.handleChange}
-          value={this.state.text}
+          onChange={handleChange}
+          value={text}
         />
       </SearchFormStyled>
     )
- }
+ 
 }
 export default SearchForm;
 

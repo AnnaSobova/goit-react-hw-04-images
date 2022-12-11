@@ -1,27 +1,25 @@
-import {Component} from 'react';
+import {useState} from 'react';
 import PropTypes from 'prop-types';
 import Modal from '../Modal/Modal';
 import ImageGalleryItemStyled from './ImageGalleryItem.styled';
 import ImageGalleryItemImage from './ImageGalleryItemImage/ImageGalleryItemImage'
 
-class ImageGalleryItem extends Component{
-  state={
-    showModal:false,
-  }
-showModal = ()=>{
-    this.setState(({showModal})=>({
-        showModal:!showModal,
-    }));
+const ImageGalleryItem = ({onClick,galleryList,imageURL})=> {
+ const [showModal, setShowModal] = useState(false);
+  
+
+const showModalonClick = ()=>{
+  setShowModal(prevState => !prevState);
 };
 
-openGalleryItemModal = id=>{
-    this.showModal();
-    const galleryItem = this.props.galleryList.filter(item => item.id === id);
-    this.setState({largeImage:galleryItem[0].largeImageURL});
-};
+// openGalleryItemModal = id=>{
+//     this.showModal();
+//     const galleryItem = this.props.galleryList.filter(item => item.id === id);
+//     this.setState({largeImage:galleryItem[0].largeImageURL});
+// };
 
-render(){
-    const {galleryList}= this.props;
+
+    // const {galleryList}= this.props;
     return(
         <>
         {galleryList.map(({ id, webformatURL, largeImageURL }) => {
@@ -29,20 +27,20 @@ render(){
             <ImageGalleryItemStyled
               key={id}
               onClick={() => {
-                this.props.onClick(largeImageURL);
-                this.showModal();
+                onClick(largeImageURL);
+                showModalonClick();
               }}
             >
               <ImageGalleryItemImage src={webformatURL} />
             </ImageGalleryItemStyled>
           );
         })}
-        {this.state.showModal && (
-          <Modal src={this.props.imageURL} onClose={this.showModal} />
+        {showModal && (
+          <Modal src={imageURL} onClose={showModalonClick} />
         )}
         </>
     );
- }
+ 
 }
 
 export default ImageGalleryItem;
