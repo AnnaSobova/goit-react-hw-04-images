@@ -18,36 +18,30 @@ export const App = ()=> {
     const [imageURL,setImageURL ]= useState(null);
   
 
-  // componentDidUpdate(_, prevState) {
-  //   if (
-  //     prevState.query !== this.state.query ||
-  //     prevState.page !== this.state.page
-  //   ) {
-  //     return this.update();
-  //   }
-  // }
-  // async update() {
-  //   this.setState({ loading: true });
-  //   try {
-  //     await getImage(this.state.query, this.state.page).then(res => {
-  //       if (!res.hits.length) {
-  //         return console.log(
-  //           'There is no images with this request. Please, try again'
-  //         );
-  //       }
-  //       this.setState(prevState => {
-  //         return {
-  //           gallery: [...prevState.gallery, ...res.hits],
-  //           total: res.totalHits,
-  //         };
-  //       });
-  //     });
-  //   } catch (error) {
-  //     console.log('Error', error);
-  //   } finally {
-  //     this.setState({ loading: false });
-  //   }
-  // }
+    useEffect(() => {
+      const update = async () => {
+        setLoading(true);
+        try {
+          await getImage(query, page).then(data => {
+            if (!data.hits.length) {
+              return console.log(
+                'There is no images with this request. Please, try again'
+              );
+            }
+            setGallery(prevValue => [...prevValue, ...data.hits]);
+            setTotal(data.totalHits);
+          });
+        } catch (error) {
+          console.log('Error', error);
+        } finally {
+          setLoading(false);
+        }
+      };
+  
+      update();
+    }, [query, page]);
+
+
 
   const handleLoadMoreBtn = () => {
     setPage (prevState => prevState+1)

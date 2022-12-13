@@ -2,17 +2,8 @@ import {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {ModalStyled,OverlayStyled} from './Modal.styled';
 
-const Modal = ()=> {
-
-  useEffect(()=>{
-    window.addEventListener('keydown', this.handleKeyDown);
-    return ()=>{
-      window.removeEventListener('keydown', this.handleKeyDown);
-    }
-  })
-  
-
-  const handleKeyDown = e => {
+const Modal = ({onClose, src})=> {
+const handleKeyDown = e => {
     if (e.code === 'Escape') {
       onClose();
     }
@@ -22,18 +13,25 @@ const Modal = ()=> {
     if (e.target === e.currentTarget) {
       onClose();
     }
-  };
+  }
 
+  useEffect(()=>{
+    window.addEventListener('keydown', handleKeyDown);
+    
+    return ()=>{
+      window.removeEventListener('keydown', handleKeyDown);
+    }
+  })
   
     return (
       <OverlayStyled onClick={handleKeyDown}>
         <ModalStyled>
-          <img src={this.props.src} alt="" />
+          <img src={src} alt="" />
         </ModalStyled>
       </OverlayStyled>
     );
-  
-}
+  };
+
 
 export default Modal;
 
