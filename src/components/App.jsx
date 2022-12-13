@@ -19,28 +19,15 @@ export const App = ()=> {
   
 
     useEffect(() => {
-      const update = async () => {
-        setLoading(true);
-        try {
-          await getImage(query, page).then(data => {
-            if (!data.hits.length) {
-              return console.log(
-                'There is no images with this request. Please, try again'
-              );
-            }
-            setGallery(prevValue => [...prevValue, ...data.hits]);
-            setTotal(data.totalHits);
-          });
-        } catch (error) {
-          console.log('Error', error);
-        } finally {
-          setLoading(false);
-        }
-      };
-  
-      update();
+      if (query.trim().length === 0) {
+        return;
+      }
+      getImage(query, page).then(data => {
+        setGallery(prevState => [...prevState, ...data.hits]);
+        setTotal(data.totalHits);
+        setLoading(false);
+      });
     }, [query, page]);
-
 
 
   const handleLoadMoreBtn = () => {

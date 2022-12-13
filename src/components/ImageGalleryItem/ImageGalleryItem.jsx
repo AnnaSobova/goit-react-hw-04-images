@@ -12,14 +12,6 @@ const showModalonClick = ()=>{
   setShowModal(prevState => !prevState);
 };
 
-// openGalleryItemModal = id=>{
-//     this.showModal();
-//     const galleryItem = this.props.galleryList.filter(item => item.id === id);
-//     this.setState({largeImage:galleryItem[0].largeImageURL});
-// };
-
-
-    // const {galleryList}= this.props;
     return(
         <>
         {galleryList.map(({ id, webformatURL, largeImageURL }) => {
